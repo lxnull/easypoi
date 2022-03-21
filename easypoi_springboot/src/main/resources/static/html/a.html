@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../css/a.css">
+    <link rel="stylesheet" href="../css/b.css">
     <script src="../js/vue.js"></script>
     <script src="../js/axios.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/dayjs/1.10.8/dayjs.min.js"></script>
 </head>
 <body>
     <div id="root">
@@ -17,22 +19,25 @@
             </thead>
             <tbody>
                 <tr v-for="(user, index) in users" :key="user.id">
+                    <td><img :src="photos[index]"></td>
                     <td>{{user.id}}</td>
                     <td>{{user.uname}}</td>
                     <td>{{user.pwd}}</td>
                     <td>{{user.sex}}</td>
                     <td>{{user.status}}</td>
-                    <td>{{user.timeString}}</td>
+                    <td>{{1647409921463 | toFormater("YYYY年MM月DD日")}}</td>
                 </tr>
             </tbody>	
         </table>
+        <button class="button button1">点击导出excel</button>
     </div>
     <script>
         new Vue({
             el: "#root",
             data: {
                 users:"",
-                len:""
+                len:7,
+                photos:[]
             },
             methods: {
                 
@@ -41,11 +46,19 @@
                 axios.get("http://localhost:8089/user/findall")
                 .then(res => {
                     this.users = res.data;
-                    this.len = 6;
+                    for(var i in this.users) {
+                        this.photos.push(this.users[i].photo);
+                    }
+                    console.log(this.photos);
                 })
                 .catch(err => {
                     console.error(err); 
                 })
+            },
+            filters: {
+                toFormater(val, str="YYYY-MM-DD HH:mm:ss") {
+                    return dayjs(val).format(str);
+                }
             }
         })  
     </script>

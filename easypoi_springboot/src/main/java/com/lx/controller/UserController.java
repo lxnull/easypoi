@@ -24,13 +24,6 @@ public class UserController {
     @GetMapping("/findall")
     public List<User> findAll() {
         List<User> users = service.findAll();
-
-        for (User user : users) {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
-            String data = simpleDateFormat.format(user.getCreateTime());
-            user.setTimeString(data);
-        }
-
         return users;
     }
 }

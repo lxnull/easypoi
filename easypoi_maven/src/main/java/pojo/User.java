@@ -33,11 +33,11 @@ public class User implements Serializable {
     private String strHobbies;
     @ExcelEntity// 一对一
     private Card card;
-//    @ExcelCollection(name = "订单列表",orderNum = "7")// 一对多
-    @ExcelIgnore
+    @ExcelCollection(name = "订单列表",orderNum = "7")// 一对多
+//    @ExcelIgnore
     private List<Order> orders;
-//    @Excel(name = "头像",width = 20.0,type = 2,imageType = 1)
-    @ExcelIgnore
+    @Excel(name = "头像",width = 20.0,type = 2,imageType = 1)
+//    @ExcelIgnore
     private String photoPath;
 
     public String getStrHobbies() {

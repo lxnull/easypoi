@@ -31,6 +31,4 @@ public class User implements Serializable {
     private int sex;
     @Excel(name = "状态",orderNum = "4",replace = {"停用_0","启用_1"})
     private int status;
-
-    private String TimeString;
 }
