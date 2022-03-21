@@ -1,0 +1,18 @@
+spring:
+  thymeleaf:
+    cache: false
+  datasource:
+    username: root
+    password: 333
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3305/excel?serverTimezone=UTC
+    type: com.alibaba.druid.pool.DruidDataSource
+  main:
+    allow-bean-definition-overriding: true
+mybatis:
+  type-aliases-package: com.lx.pojo
+  mapper-locations: classpath:mybatis/mapper/*.xml
+server:
+  port: 8089
+  servlet:
+    context-path: /

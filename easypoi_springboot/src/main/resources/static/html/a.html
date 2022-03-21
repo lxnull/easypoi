@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/a.css">
+    <script src="../js/vue.js"></script>
+    <script src="../js/axios.min.js"></script>
+</head>
+<body>
+    <div id="root">
+        <table class="">
+            <thead>
+                <tr><td :colspan="len">用户列表</td></tr>
+            </thead>
+            <tbody>
+                <tr v-for="(user, index) in users" :key="user.id">
+                    <td>{{user.id}}</td>
+                    <td>{{user.uname}}</td>
+                    <td>{{user.pwd}}</td>
+                    <td>{{user.sex}}</td>
+                    <td>{{user.status}}</td>
+                    <td>{{user.timeString}}</td>
+                </tr>
+            </tbody>	
+        </table>
+    </div>
+    <script>
+        new Vue({
+            el: "#root",
+            data: {
+                users:"",
+                len:""
+            },
+            methods: {
+                
+            },
+            created() {
+                axios.get("http://localhost:8089/user/findall")
+                .then(res => {
+                    this.users = res.data;
+                    this.len = 6;
+                })
+                .catch(err => {
+                    console.error(err); 
+                })
+            }
+        })  
+    </script>
+</body>
+</html>
