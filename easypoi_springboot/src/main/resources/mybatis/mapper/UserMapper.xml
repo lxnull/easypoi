@@ -9,10 +9,10 @@
         SELECT * FROM user
     </select>
 
-<!--    &lt;!&ndash;添加用户&ndash;&gt;-->
-<!--    <insert id="add" parameterType="User">-->
-<!--        insert into user(uname,upwd) values(#{uname},#{upwd})-->
-<!--    </insert>-->
+    <!--添加用户-->
+    <insert id="add" parameterType="User">
+        insert into user(uname,pwd,createTime,sex,status) values(#{uname},#{pwd},#{createTime},#{sex},#{status})
+    </insert>
 
 <!--    &lt;!&ndash;修改用户&ndash;&gt;-->
 <!--    <update id="update" parameterType="User">-->

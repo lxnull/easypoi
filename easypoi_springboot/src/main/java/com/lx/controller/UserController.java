@@ -26,4 +26,10 @@ public class UserController {
         List<User> users = service.findAll();
         return users;
     }
+
+    @GetMapping("/add")
+    public int add(User user) {
+        int add = service.add(user);
+        return add;
+    }
 }

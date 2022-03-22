@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,13 +10,15 @@
     <link rel="stylesheet" href="../css/b.css">
     <script src="../js/vue.js"></script>
     <script src="../js/axios.min.js"></script>
-    <script src="https://cdn.bootcdn.net/ajax/libs/dayjs/1.10.8/dayjs.min.js"></script>
 </head>
+
 <body>
     <div id="root">
         <table class="">
             <thead>
-                <tr><td :colspan="len">用户列表</td></tr>
+                <tr>
+                    <td :colspan="len">用户列表</td>
+                </tr>
             </thead>
             <tbody>
                 <tr v-for="(user, index) in users" :key="user.id">
@@ -27,7 +30,7 @@
                     <td>{{user.status}}</td>
                     <td>{{1647409921463 | toFormater("YYYY年MM月DD日")}}</td>
                 </tr>
-            </tbody>	
+            </tbody>
         </table>
         <button class="button button1">点击导出excel</button>
     </div>
@@ -35,32 +38,35 @@
         new Vue({
             el: "#root",
             data: {
-                users:"",
-                len:7,
-                photos:[]
+                users: "",
+                len: 7,
+                photos: []
             },
             methods: {
-                
+                handlePreview(file) {
+                    window.open(file.response.url);
+                }
             },
             created() {
                 axios.get("http://localhost:8089/user/findall")
-                .then(res => {
-                    this.users = res.data;
-                    for(var i in this.users) {
-                        this.photos.push(this.users[i].photo);
-                    }
-                    console.log(this.photos);
-                })
-                .catch(err => {
-                    console.error(err); 
-                })
+                    .then(res => {
+                        this.users = res.data;
+                        for (var i in this.users) {
+                            this.photos.push(this.users[i].photo);
+                        }
+                        console.log(this.photos);
+                    })
+                    .catch(err => {
+                        console.error(err);
+                    })
             },
             filters: {
-                toFormater(val, str="YYYY-MM-DD HH:mm:ss") {
+                toFormater(val, str = "YYYY-MM-DD HH:mm:ss") {
                     return dayjs(val).format(str);
                 }
             }
         })  
     </script>
 </body>
+
 </html>

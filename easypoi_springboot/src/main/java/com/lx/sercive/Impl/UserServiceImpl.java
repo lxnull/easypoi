@@ -18,4 +18,11 @@ public class UserServiceImpl implements UserService {
     public List<User> findAll() {
         return mapper.findAll();
     }
+
+    @Override
+    public int add(User user) {
+        int add = mapper.add(user);
+        System.out.println(add);
+        return add;
+    }
 }
