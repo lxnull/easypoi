@@ -11,4 +11,8 @@ public interface UserService {
     public List<User> findAll();
 
     public int add(User user);
+
+    public int add(List<User> userList);
+
+    public List<User> getUsersFromExcel(String path);
 }

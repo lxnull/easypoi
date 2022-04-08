@@ -25,7 +25,7 @@ public class User implements Serializable {
     private String pwd;
     @Excel(name = "创建时间",orderNum = "3",format = "YYYY-MM-dd HH:mm:ss")
     private Date createTime;
-    @Excel(name = "头像",width = 20.0,type = 2,savePath = "G:\\JavaSpace\\Java进阶\\easypoi\\easypoi_springboot\\src\\main\\resources\\static\\img")
+    @Excel(name = "头像",width = 20.0,type = 2)
     private String photo;
     @Excel(name = "性别",orderNum = "2",replace = {"女_0","男_1"})
     private int sex;

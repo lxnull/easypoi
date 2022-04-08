@@ -3,12 +3,18 @@ spring:
     cache: false
   datasource:
     username: root
-    password: 333
+    password: 3333
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3305/excel?serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/excel?useUnicode=true&characterEncoding=utf-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8
     type: com.alibaba.druid.pool.DruidDataSource
   main:
     allow-bean-definition-overriding: true
+  servlet:
+    multipart:
+      # 单个文件大小
+      max-request-size: 10MB
+      # 总上传大小
+      max-file-size: 20MB
 mybatis:
   type-aliases-package: com.lx.pojo
   mapper-locations: classpath:mybatis/mapper/*.xml
@@ -16,3 +22,7 @@ server:
   port: 8089
   servlet:
     context-path: /
+file:
+  staticPath: http://localhost:8089
+  staticPatternPath: /file/**
+  uploadFolder: G:\JavaSpace\Java进阶\easypoi\easypoi_springboot\src\main\resources\file\

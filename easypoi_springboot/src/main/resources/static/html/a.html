@@ -6,63 +6,123 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../css/a.css">
-    <link rel="stylesheet" href="../css/b.css">
+    <link rel="stylesheet" src="../css/a.css">
     <script src="../js/vue.js"></script>
     <script src="../js/axios.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/dayjs/1.11.0/dayjs.min.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 </head>
 
 <body>
     <div id="root">
-        <table class="">
-            <thead>
-                <tr>
-                    <td :colspan="len">用户列表</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(user, index) in users" :key="user.id">
-                    <td><img :src="photos[index]"></td>
-                    <td>{{user.id}}</td>
-                    <td>{{user.uname}}</td>
-                    <td>{{user.pwd}}</td>
-                    <td>{{user.sex}}</td>
-                    <td>{{user.status}}</td>
-                    <td>{{1647409921463 | toFormater("YYYY年MM月DD日")}}</td>
-                </tr>
-            </tbody>
-        </table>
-        <button class="button button1">点击导出excel</button>
+        <el-upload class="upload-demo" drag action="http://localhost:8089/upload/excel" multiple>
+            <i class="el-icon-upload"></i>
+            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        </el-upload>
+        <br><br><br>
+        <hr>
+        <br><br><br>
+        <el-table :data="users" border style="width: 1050px">
+            <el-table-column fixed prop="id" label="编号" width="150">
+            </el-table-column>
+            <el-table-column prop="uname" label="姓名" width="120">
+            </el-table-column>
+            <el-table-column prop="pwd" label="密码" width="120">
+            </el-table-column>
+            <el-table-column label="创建时间" width="200">
+                <template slot-scope="scope">
+                    <p>{{scope.row.createTime | toFormater}}</p>
+                </template>
+            </el-table-column>
+            <el-table-column label="性别" width="100">
+                <template slot-scope="scope">
+                    <p>{{scope.row.sex | toSexString}}</p>
+                </template>
+            </el-table-column>
+            <el-table-column label="状态" width="120">
+                <template slot-scope="scope">
+                    <p>{{scope.row.status | toStatusString}}</p>
+                </template>
+            </el-table-column>
+            <el-table-column label="头像" width="140">
+                <template slot-scope="scope">
+                    <el-image style="width: 100px; height: 100px" :src="scope.row.photo"></el-image>
+                </template>
+            </el-table-column>
+            <el-table-column label="操作" width="100">
+                <template slot-scope="scope">
+                    <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+                    <el-button type="text" size="small">编辑</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <br>
+        <el-row>
+            <a href="http://localhost:8089/download/excel">
+                <el-button type="primary" @click="download" :disabled="buttonDisable" :loading="buttonLoad">导出excel
+                </el-button>
+            </a>
+        </el-row>
     </div>
     <script>
         new Vue({
             el: "#root",
             data: {
-                users: "",
+                users: [],
                 len: 7,
-                photos: []
+                photos: [],
+                styleImg: {
+                    width: "120px",
+                    height: "120px"
+                },
+                dateVal: "",
+                styleRight: {
+                    float: "right"
+                },
+                fileVal: "",
+                buttonDisable: false,
+                buttonLoad: false
             },
             methods: {
-                handlePreview(file) {
-                    window.open(file.response.url);
+                download() {
+                    this.buttonDisable = true;
+                    this.buttonLoad = true;
+                    setTimeout(() => {
+                        this.buttonLoad = false;
+                        this.buttonDisable = false;
+                    }, 1000)
                 }
             },
             created() {
                 axios.get("http://localhost:8089/user/findall")
                     .then(res => {
                         this.users = res.data;
-                        for (var i in this.users) {
+                        for (var i = 0; i < this.users.length; i++) {
                             this.photos.push(this.users[i].photo);
+                            // console.log(this.users[i].photo);
                         }
-                        console.log(this.photos);
                     })
                     .catch(err => {
                         console.error(err);
                     })
             },
             filters: {
+                toSexString(val) {
+                    return val === 1 ? '男' : '女';
+                },
+                toStatusString(val) {
+                    return val === 1 ? "启用" : "停用";
+                },
                 toFormater(val, str = "YYYY-MM-DD HH:mm:ss") {
                     return dayjs(val).format(str);
+                }
+            },
+            watch: {
+                dateVal(newVal) {
+                    console.log(typeof newVal);
                 }
             }
         })  
